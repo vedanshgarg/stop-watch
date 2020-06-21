@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
+import WebWorker from "../WebWorker/WebWorker";
+import incrementWorker from "../../utils/incrementWorker";
 
 import "./styles.css";
 
@@ -12,15 +15,35 @@ const incrementWithoutWorker = (score, setScore) => {
   setScore((score) => score + toAdd);
 };
 
+const incrementWithWorker = (score, worker) => {
+  worker.postMessage(score);
+};
+
 const WebWorkerDemo = () => {
   const [score, setScore] = useState(0);
+  const [worker, setWorker] = useState(null);
+
+  useEffect(() => {
+    setWorker(new WebWorker(incrementWorker));
+  }, []);
+
+  useEffect(() => {
+    if (worker) {
+      worker.addEventListener("message", (event) => {
+        setScore(event.data);
+      });
+    }
+  }, [worker]);
 
   return (
     <div className="web-worker-demo">
       <div className="score">{score}</div>
       <div className="demo-buttons">
         <button onClick={() => incrementWithoutWorker(score, setScore)}>
-          Add in same thread
+          Add in Main thread
+        </button>
+        <button onClick={() => incrementWithWorker(score, worker)}>
+          Add in WebWorker thread
         </button>
       </div>
     </div>

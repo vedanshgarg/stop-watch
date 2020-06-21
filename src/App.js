@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
-import Display from "./Display";
+import Display from "./components/Display/Display";
+import WebWorkerDemo from "./components/WebWorkerDemo/WebWorkerDemo";
 
 class App extends React.Component{
 
@@ -87,7 +88,7 @@ class App extends React.Component{
 
     render() {
         return (
-            <header className="App-header">
+            <div className="app-main">
                 <Display minZero = {this.showZero(this.state.timeInMinutes)}
                          secZero = {this.showZero(this.state.timeInSeconds)}
                          deciSecZero = {this.showZero(this.state.timeInDeciSeconds)}
@@ -99,7 +100,8 @@ class App extends React.Component{
                     <button onClick={this.runStartPause}>{this.showStartPause()} </button>
                     <button onClick={this.resetTimer}> Reset</button>
                 </div>
-            </header>
+                <WebWorkerDemo/>
+            </div>
         );
 
     }

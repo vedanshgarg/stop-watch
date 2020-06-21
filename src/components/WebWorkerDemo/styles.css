@@ -8,6 +8,10 @@
   font-size: 40px;
 }
 
+.loading {
+  color: grey;
+}
+
 .demo-buttons {
   display: flex;
   flex-direction: column;

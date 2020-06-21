@@ -1,20 +1,21 @@
 import React from "react";
+
 import "./App.css";
 import Display from "./components/Display/Display";
 import WebWorkerDemo from "./components/WebWorkerDemo/WebWorkerDemo";
+import WebWorker from "./components/WebWorker/WebWorker";
+import incrementWorker from "./utils/incrementWorker";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      timeInDeciSeconds: 0,
-      timeInSeconds: 0,
-      timeInMinutes: 0,
-      timerRunning: false,
-      initiateReset: false,
-      timerInterval: 0,
-    };
-  }
+  state = {
+    timeInDeciSeconds: 0,
+    timeInSeconds: 0,
+    timeInMinutes: 0,
+    timerRunning: false,
+    initiateReset: false,
+    timerInterval: 0,
+  };
+  worker = new WebWorker(incrementWorker);
 
   showZero = (currValue) => {
     if (currValue < 10) {
@@ -88,6 +89,13 @@ class App extends React.Component {
     }
   };
 
+  componentDidMount() {
+    let x = 0;
+    setInterval(() => {
+      console.log(x++);
+    }, 500);
+  }
+
   render() {
     return (
       <div className="app-main">
@@ -103,7 +111,7 @@ class App extends React.Component {
           <button onClick={this.runStartPause}>{this.showStartPause()}</button>
           <button onClick={this.resetTimer}> Reset</button>
         </div>
-        <WebWorkerDemo />
+        <WebWorkerDemo worker={this.worker} />
       </div>
     );
   }

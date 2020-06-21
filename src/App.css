@@ -1,7 +1,9 @@
-button{
+button {
+  margin: 5px;
+  min-width: 100px;
   font-size: 25px;
 }
-button:hover{
+button:hover {
   cursor: pointer;
 }
 
